@@ -45,20 +45,11 @@ body.home .elementor-section.elementor-section-stretched {
     margin-right: 0 !important;
 }
 
-/* ── 2. Hide green top bar "ADD ANYTHING HERE" ── */
-.whb-6l5y1eay522jehk73pi2,
-.whb-row.whb-top-bar:has(strong),
-[class*="whb-"][class*="top"] .text:not(:empty) {
-    display: none !important;
-}
-
-/* Target the top bar row that has that green/colored background */
-.wd-top-bar {
-    display: none !important;
-}
-
-/* Hide the specific WoodMart header top row (first row in header) */
-.whb-row:first-child {
+/* ── 2. Hide green top bar (exact WoodMart class) ── */
+.whb-row.whb-top-bar,
+.whb-top-bar,
+.wd-top-bar,
+.whb-6l5y1eay522jehk73pi2 {
     display: none !important;
 }
 
