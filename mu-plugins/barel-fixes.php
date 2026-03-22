@@ -74,7 +74,7 @@ body.home .elementor-section.elementor-section-stretched {
 /* If WoodMart still shows wood-logo-dark.svg, hide it and show ours */
 img[src*="wood-logo-dark"],
 img[src*="woodmart/images/wood-logo"] {
-    content: url('https://barelofir.co.il/wp-content/uploads/2026/03/logo_transparent.png') !important;
+    content: url('https://barelofir.co.il/wp-content/uploads/logo_transparent.png') !important;
     max-width: 180px !important;
     height: auto !important;
 }
@@ -145,7 +145,7 @@ add_action('wp_footer', function () { ?>
     // 1. Replace WoodMart default logo with barel logo
     var imgs = document.querySelectorAll('img[src*="wood-logo-dark"], img[src*="wood-logo.svg"]');
     imgs.forEach(function(img) {
-        img.src = 'https://barelofir.co.il/wp-content/uploads/2026/03/logo_transparent.png';
+        img.src = 'https://barelofir.co.il/wp-content/uploads/logo_transparent.png';
         img.style.maxWidth = '180px';
         img.style.height = 'auto';
     });
