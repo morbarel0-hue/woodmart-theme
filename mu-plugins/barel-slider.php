@@ -1,241 +1,62 @@
 <?php
-/**
- * Plugin Name: Barel Hero Slider
- * Description: Full-width hero slider for homepage
- * Version: 6.0
- */
+/* Plugin Name: Barel Slider */
 if (!defined('ABSPATH')) exit;
 
-/* ── CSS ── */
-add_action('wp_head', function () {
-    if (!is_front_page()) return;
-    ?>
-<style id="barel-slider-css">
-#barel-hero-slider {
-    position: relative;
-    width: 100vw;
-    margin-left: calc(50% - 50vw);
-    margin-right: calc(50% - 50vw);
-    overflow: hidden;
-    height: 560px;
-    background: #111;
-    display: block;
-    box-sizing: border-box;
-}
-@media (max-width: 768px) {
-    #barel-hero-slider { height: auto; }
-}
-.bhs-track {
-    display: flex;
-    width: 300%;
-    height: 100%;
-    transition: transform 0.6s ease;
-    will-change: transform;
-}
-.bhs-slide {
-    position: relative;
-    min-width: calc(100% / 3);
-    width: calc(100% / 3);
-    height: 100%;
-    overflow: hidden;
-    flex-shrink: 0;
-}
-.bhs-slide img {
-    width: 100%;
-    height: 560px;
-    object-fit: cover;
-    display: block;
-    margin: 0;
-    padding: 0;
-}
-@media (max-width: 768px) {
-    .bhs-slide img { height: auto; min-height: 220px; }
-}
-
-/* ── CTA Button ── */
-.bhs-cta {
-    position: absolute;
-    bottom: 56px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 5;
-    display: inline-block;
-    background: #e63030;
-    color: #fff;
-    font-family: Heebo, Arial, sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-    padding: 12px 32px;
-    border-radius: 4px;
-    text-decoration: none;
-    white-space: nowrap;
-    transition: background 0.2s;
-    cursor: pointer;
-    border: none;
-}
-.bhs-cta:hover { background: #b71c1c; color: #fff; text-decoration: none; }
-@media (max-width: 768px) {
-    .bhs-cta { bottom: 48px; font-size: 14px; padding: 10px 22px; }
-}
-
-/* ── Arrows ── */
-.bhs-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(0,0,0,0.45);
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    font-size: 24px;
-    line-height: 48px;
-    text-align: center;
-    z-index: 10;
-    padding: 0;
-    transition: background 0.2s;
-}
-.bhs-arrow:hover { background: rgba(0,0,0,0.75); }
-.bhs-prev { left: 16px; }
-.bhs-next { right: 16px; }
-
-/* ── Dots ── */
-.bhs-dots {
-    position: absolute;
-    bottom: 16px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 8px;
-    z-index: 10;
-}
-.bhs-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.5);
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    transition: background 0.2s;
-}
-.bhs-dot.active { background: #fff; }
-
-/* ── Kill side gaps ── */
-body {
-    overflow-x: hidden;
-}
-body.home .website-wrapper,
-body.home .wd-page-content,
-body.home .wd-content-layout,
-body.home #main-content,
-body.home .entry-content,
-body.home .elementor-section-wrap,
-body.home .e-con-inner,
-body.home .elementor-top-section:first-child {
-    max-width: 100% !important;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-}
-body.home .elementor-section.elementor-section-stretched {
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-}
-</style>
+add_action('wp_head', function() {
+    if (!is_front_page()) return; ?>
+    <style>
+    * { box-sizing: border-box; }
+    body { overflow-x: hidden !important; }
+    #barel-slider { position: relative; width: 100%; overflow: hidden; background: #111; }
+    #barel-slider .bslide { display: none; position: relative; width: 100%; }
+    #barel-slider .bslide.on { display: block; }
+    #barel-slider .bslide img { width: 100%; height: 560px; object-fit: cover; display: block; }
+    #barel-slider .bslide-btn { position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%); background: #e63030; color: #fff; padding: 12px 36px; font-size: 16px; font-family: Heebo,Arial,sans-serif; font-weight: 700; border-radius: 4px; text-decoration: none; white-space: nowrap; z-index: 5; }
+    #barel-slider .bslide-btn:hover { background: #b71c1c; color: #fff; text-decoration: none; }
+    #barel-slider .barr { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.45); color: #fff; border: none; font-size: 28px; padding: 10px 15px; cursor: pointer; z-index: 5; }
+    #barel-slider .barr-r { right: 12px; }
+    #barel-slider .barr-l { left: 12px; }
+    #barel-slider .bdots { position: absolute; bottom: 10px; width: 100%; text-align: center; z-index: 5; }
+    #barel-slider .bdot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.5); margin: 0 4px; cursor: pointer; border: none; }
+    #barel-slider .bdot.on { background: #fff; }
+    @media(max-width:767px) { #barel-slider .bslide img { height: auto; } }
+    /* Fix side gaps */
+    body.home .site-content > .container,
+    body.home .woodmart-content-container,
+    body.home #main-content > .container { padding-left: 0 !important; padding-right: 0 !important; max-width: 100% !important; }
+    </style>
     <?php
-}, 5);
+});
 
-/* ── HTML + JS ── */
-add_action('wp_footer', function () {
+add_action('wp_body_open', function() {
     if (!is_front_page()) return;
-    ?>
-<div id="barel-hero-slider" style="display:none">
-    <div class="bhs-track">
-
-        <div class="bhs-slide">
-            <img src="https://barelofir.co.il/wp-content/uploads/sliders/drills_desktop.jpg"
-                 alt="מקדחות ומברגות" width="1920" height="560" loading="eager" />
-            <a href="/shop" class="bhs-cta">לרכישה עכשיו</a>
-        </div>
-
-        <div class="bhs-slide">
-            <img src="https://barelofir.co.il/wp-content/uploads/sliders/washers_desktop.jpg"
-                 alt="מכונות שטיפה" width="1920" height="560" loading="lazy" />
-            <a href="/shop" class="bhs-cta">לרכישה עכשיו</a>
-        </div>
-
-        <div class="bhs-slide">
-            <img src="https://barelofir.co.il/wp-content/uploads/sliders/signet_desktop.jpg"
-                 alt="כלי גינון" width="1920" height="560" loading="lazy" />
-            <a href="/shop" class="bhs-cta">לרכישה עכשיו</a>
-        </div>
-
-    </div>
-    <button class="bhs-arrow bhs-prev" aria-label="הקודם">&#8249;</button>
-    <button class="bhs-arrow bhs-next" aria-label="הבא">&#8250;</button>
-    <div class="bhs-dots">
-        <button class="bhs-dot active" data-idx="0" aria-label="שקופית 1"></button>
-        <button class="bhs-dot" data-idx="1" aria-label="שקופית 2"></button>
-        <button class="bhs-dot" data-idx="2" aria-label="שקופית 3"></button>
-    </div>
-</div>
-
-<script id="barel-slider-js">
-(function () {
-    var slider = document.getElementById('barel-hero-slider');
-    if (!slider) return;
-
-    /* Place slider at top of page content */
-    var candidates = ['.wd-page-content', '#main-content', '.main-page-wrapper', 'main', '#page'];
-    var placed = false;
-    for (var i = 0; i < candidates.length; i++) {
-        var el = document.querySelector(candidates[i]);
-        if (el) {
-            el.insertBefore(slider, el.firstChild);
-            placed = true;
-            break;
-        }
+    $b = 'https://barelofir.co.il/wp-content/uploads/sliders/';
+    $slides = [
+        [$b.'drills_desktop.jpg',  $b.'drills_mobile.jpg',  'מברגות אימפקט'],
+        [$b.'washers_desktop.jpg', $b.'washers_mobile.jpg', 'מכונות שטיפה Hunter'],
+        [$b.'signet_desktop.jpg',  $b.'signet_mobile.jpg',  'מוצרי Signet'],
+    ];
+    echo '<div id="barel-slider">';
+    foreach ($slides as $i => $s) {
+        $on = $i === 0 ? ' on' : '';
+        echo '<div class="bslide'.$on.'">';
+        echo '<picture>';
+        echo '<source media="(max-width:767px)" srcset="'.$s[1].'">';
+        echo '<img src="'.$s[0].'" alt="'.$s[2].'" '.($i===0?'':'loading="lazy"').'>';
+        echo '</picture>';
+        echo '<a href="/shop" class="bslide-btn">לרכישה עכשיו</a>';
+        echo '</div>';
     }
-    if (!placed) document.body.insertBefore(slider, document.body.firstChild);
-    slider.style.display = 'block';
-
-    var track = slider.querySelector('.bhs-track');
-    var dots  = slider.querySelectorAll('.bhs-dot');
-    var btnP  = slider.querySelector('.bhs-prev');
-    var btnN  = slider.querySelector('.bhs-next');
-    var total = slider.querySelectorAll('.bhs-slide').length;
-    var cur   = 0;
-    var timer;
-    var rtl   = document.dir === 'rtl' || document.documentElement.getAttribute('dir') === 'rtl';
-
-    /* track is 300% wide, each slide is 1/3 of track = 100vw
-       so to show slide N we translate by -(N * 100/3)% of track width */
-    function goTo(n) {
-        cur = (n + total) % total;
-        var pct = -(cur * (100 / total));
-        track.style.transform = 'translateX(' + pct + '%)';
-        dots.forEach(function (d, i) { d.classList.toggle('active', i === cur); });
-    }
-    function startTimer() {
-        clearInterval(timer);
-        timer = setInterval(function () { goTo(cur + 1); }, 5000);
-    }
-
-    btnP.addEventListener('click', function () { goTo(cur - 1); startTimer(); });
-    btnN.addEventListener('click', function () { goTo(cur + 1); startTimer(); });
-    dots.forEach(function (d) {
-        d.addEventListener('click', function () { goTo(+d.dataset.idx); startTimer(); });
-    });
-    slider.addEventListener('mouseenter', function () { clearInterval(timer); });
-    slider.addEventListener('mouseleave', startTimer);
-
-    goTo(0);
-    startTimer();
-})();
-</script>
-    <?php
-}, 1);
+    echo '<button class="barr barr-r" onclick="bs(-1)">&#10095;</button>';
+    echo '<button class="barr barr-l" onclick="bs(1)">&#10094;</button>';
+    echo '<div class="bdots">';
+    foreach ($slides as $i => $s) echo '<button class="bdot'.($i===0?' on':'').'" onclick="bg('.$i.')"></button>';
+    echo '</div></div>';
+    echo '<script>
+    var bc=0,bt=3,bi;
+    function bshow(n){bc=(n+bt)%bt;document.querySelectorAll("#barel-slider .bslide").forEach(function(s,i){s.className="bslide"+(i==bc?" on":"");});document.querySelectorAll("#barel-slider .bdot").forEach(function(d,i){d.className="bdot"+(i==bc?" on":"");});}
+    function bs(d){bshow(bc+d);clearInterval(bi);bi=setInterval(function(){bshow(bc+1);},5000);}
+    function bg(n){bshow(n);clearInterval(bi);bi=setInterval(function(){bshow(bc+1);},5000);}
+    bi=setInterval(function(){bshow(bc+1);},5000);
+    </script>';
+});
