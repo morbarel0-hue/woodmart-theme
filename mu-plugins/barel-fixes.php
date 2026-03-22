@@ -118,3 +118,34 @@ add_filter('woodmart_header_builder_row_output', function ($output, $row_id, $ro
     }
     return $output;
 }, 10, 3);
+
+/* ══════════════════════════════════════════════════════════════
+   JS: swap logo src + fix My Account title attribute
+   ══════════════════════════════════════════════════════════════ */
+add_action('wp_footer', function () { ?>
+<script id="barel-ui-js">
+(function(){
+    // 1. Replace WoodMart default logo with barel logo
+    var imgs = document.querySelectorAll('img[src*="wood-logo-dark"], img[src*="wood-logo.svg"]');
+    imgs.forEach(function(img) {
+        img.src = 'https://barelofir.co.il/wp-content/uploads/2026/03/barel-logo.svg';
+        img.style.maxWidth = '180px';
+        img.style.height = 'auto';
+    });
+
+    // 2. Fix My Account link text and title
+    document.querySelectorAll('a[href*="my-account"]').forEach(function(a) {
+        if (a.title && (a.title === 'My account' || a.title === 'My Account')) {
+            a.title = '\u05d4\u05d7\u05e9\u05d1\u05d5\u05df \u05e9\u05dc\u05d9';
+        }
+        // Fix text label inside
+        a.querySelectorAll('.wd-tools-element-label, .woodmart-header-my-account-label').forEach(function(el) {
+            if (el.textContent.trim() === 'My account' || el.textContent.trim() === 'My Account') {
+                el.textContent = '\u05d4\u05d7\u05e9\u05d1\u05d5\u05df \u05e9\u05dc\u05d9';
+            }
+        });
+    });
+})();
+</script>
+<?php
+}, 99);
