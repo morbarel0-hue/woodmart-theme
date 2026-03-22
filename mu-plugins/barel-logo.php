@@ -3,23 +3,23 @@
 if (!defined('ABSPATH')) exit;
 
 add_action('wp_head', function() { ?>
-<style id=barel-logo-css>
-.site-logo img,
+<style id="barel-logo-css">
 .woodmart-logo img,
-.wd-header-logo img,
-.wd-main-logo img,
-img.custom-logo,
-.whb-header .custom-logo {
-    height: 65px !important;
+.site-logo img,
+.woodmart-logo-wrap img,
+header .logo img,
+.wd-header-logo img {
+    height: 80px !important;
     width: auto !important;
     max-width: none !important;
 }
 @media (max-width: 768px) {
-    .site-logo img,
     .woodmart-logo img,
-    .wd-header-logo img,
-    img.custom-logo {
-        height: 45px !important;
+    .site-logo img,
+    .woodmart-logo-wrap img,
+    header .logo img,
+    .wd-header-logo img {
+        height: 50px !important;
     }
 }
 </style>
