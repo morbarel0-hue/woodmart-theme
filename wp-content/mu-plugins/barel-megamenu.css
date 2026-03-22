@@ -1,0 +1,340 @@
+/*
+ * Bar-El Mega Menu — KSP-style professional mega menu
+ * Site: barelofir.co.il
+ * Accent: #e3000f (red)  |  Bg: #fff  |  Top-bar: #1a1a1a
+ * Font: Heebo / Arial (inherits site font)
+ */
+
+/* ─── Reset scoped to our nav ──────────────────────────────────── */
+#barel-mega-nav *,
+#barel-mega-nav *::before,
+#barel-mega-nav *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* ─── Outer nav bar ─────────────────────────────────────────────── */
+#barel-mega-nav {
+    position: relative;
+    width: 100%;
+    background: #1a1a1a;
+    font-family: "Heebo", Arial, "Helvetica Neue", sans-serif;
+    font-size: 14px;
+    direction: rtl;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .30);
+    z-index: 8888;
+}
+
+/* ─── "כל הקטגוריות" label (desktop only) ───────────────────────── */
+.barel-nav-label {
+    display: none; /* hidden on desktop, can enable if needed */
+}
+
+/* ─── Top-level menu list ───────────────────────────────────────── */
+.barel-menu-list {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    list-style: none;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0;
+    scrollbar-width: none;
+}
+.barel-menu-list::-webkit-scrollbar { display: none; }
+
+/* ─── Top-level menu items ──────────────────────────────────────── */
+.barel-menu-item {
+    position: static;
+    flex-shrink: 0;
+}
+
+/* ─── Top-level links ───────────────────────────────────────────── */
+.barel-menu-link {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0 15px;
+    height: 46px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    white-space: nowrap;
+    line-height: 1;
+    border-bottom: 3px solid transparent;
+    transition: background 0.15s, border-color 0.15s;
+}
+
+.barel-menu-link:hover,
+.barel-menu-item:hover > .barel-menu-link,
+.barel-menu-item.is-open > .barel-menu-link {
+    background: rgba(255, 255, 255, 0.07);
+    border-bottom-color: #e3000f;
+    color: #fff;
+}
+
+/* ─── Caret arrow ───────────────────────────────────────────────── */
+.barel-caret {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-right: 4px solid transparent;
+    border-left: 4px solid transparent;
+    border-top: 5px solid rgba(255, 255, 255, 0.7);
+    transition: transform 0.2s;
+    margin-top: 1px;
+}
+
+.barel-menu-item:hover > .barel-menu-link .barel-caret,
+.barel-menu-item.is-open > .barel-menu-link .barel-caret {
+    transform: rotate(180deg);
+    border-top-color: #fff;
+}
+
+/* ─── Mega Panel (full-width dropdown) ──────────────────────────── */
+.barel-mega-panel {
+    display: none;
+    position: fixed;
+    left: 0;
+    width: 100vw;
+    background: #fff;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+    border-top: 3px solid #e3000f;
+    z-index: 9999;
+}
+
+@keyframes barel-dropdown {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.barel-menu-item:hover > .barel-mega-panel,
+.barel-menu-item.is-open > .barel-mega-panel {
+    display: block;
+    animation: barel-dropdown 0.15s ease;
+}
+
+/* ─── Mega inner wrapper ────────────────────────────────────────── */
+.barel-mega-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 24px 24px 16px;
+}
+
+/* ─── Column grid ───────────────────────────────────────────────── */
+.barel-mega-columns {
+    display: grid;
+    grid-template-columns: repeat(var(--col-count, 5), 1fr);
+    gap: 0 20px;
+}
+
+/* ─── Individual column ─────────────────────────────────────────── */
+.barel-mega-col {
+    padding: 0 10px 16px;
+    border-inline-end: 1px solid #f0f0f0;
+}
+
+.barel-mega-col:last-child {
+    border-inline-end: none;
+}
+
+/* ─── Red column header ─────────────────────────────────────────── */
+.barel-col-header {
+    display: block;
+    color: #e3000f;
+    font-size: 13.5px;
+    font-weight: 700;
+    text-decoration: none;
+    padding-bottom: 8px;
+    margin-bottom: 6px;
+    border-bottom: 2px solid #e3000f;
+    line-height: 1.3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: color 0.15s;
+}
+
+.barel-col-header:hover {
+    color: #b80010;
+    text-decoration: underline;
+}
+
+/* ─── Grandchild list ───────────────────────────────────────────── */
+.barel-grand-list {
+    list-style: none;
+}
+
+.barel-grand-list li a {
+    display: block;
+    color: #333;
+    font-size: 13px;
+    text-decoration: none;
+    padding: 5px 0;
+    border-bottom: 1px solid #f4f4f4;
+    transition: color 0.12s, padding-inline-end 0.12s;
+    line-height: 1.4;
+}
+
+.barel-grand-list li:last-child a {
+    border-bottom: none;
+}
+
+.barel-grand-list li a:hover {
+    color: #e3000f;
+    padding-inline-end: 6px;
+}
+
+/* ─── "View all" footer row ─────────────────────────────────────── */
+.barel-mega-footer {
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+    text-align: start;
+}
+
+.barel-view-all {
+    display: inline-block;
+    color: #e3000f;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: color 0.15s;
+}
+
+.barel-view-all:hover {
+    color: #b80010;
+    text-decoration: underline;
+}
+
+/* ─── Hamburger button ──────────────────────────────────────────── */
+.barel-hamburger {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+    width: 48px;
+    height: 46px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+}
+
+.barel-hamburger span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: #fff;
+    border-radius: 2px;
+    transition: transform 0.25s, opacity 0.2s;
+}
+
+.barel-hamburger.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.barel-hamburger.is-open span:nth-child(2) { opacity: 0; }
+.barel-hamburger.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ═══════════════════════════════════════════════════════════════
+   MOBILE  ( ≤ 1024px )
+   ═══════════════════════════════════════════════════════════════ */
+@media (max-width: 1024px) {
+    #barel-mega-nav {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+    }
+
+    .barel-hamburger {
+        display: flex;
+        align-self: flex-start;
+    }
+
+    /* Hide list by default on mobile */
+    .barel-menu-list {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        overflow-y: auto;
+        max-height: 75vh;
+        background: #222;
+        overflow-x: visible;
+    }
+
+    .barel-menu-list.is-open {
+        display: flex;
+    }
+
+    .barel-menu-item {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .barel-menu-link {
+        height: auto;
+        padding: 13px 16px;
+        justify-content: space-between;
+        font-size: 15px;
+    }
+
+    /* Mega panel becomes an inline accordion on mobile */
+    .barel-mega-panel {
+        display: none !important;
+        position: static !important;
+        width: 100% !important;
+        border-top: 2px solid #e3000f;
+        box-shadow: none;
+        animation: none !important;
+    }
+
+    .barel-menu-item.is-open > .barel-mega-panel {
+        display: block !important;
+    }
+
+    .barel-mega-inner {
+        padding: 12px 12px 8px;
+    }
+
+    .barel-mega-columns {
+        grid-template-columns: 1fr 1fr !important;
+        --col-count: 2;
+    }
+}
+
+@media (max-width: 600px) {
+    .barel-mega-columns {
+        grid-template-columns: 1fr !important;
+        --col-count: 1;
+    }
+}
+
+/* ─── Woodmart standard dropdown override ─── */
+.wd-nav .sub-menu,
+.main-nav .sub-menu,
+.woodmart-navigation .menu .sub-menu {
+    background: #fff !important;
+    border-top: 3px solid #e63030 !important;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12) !important;
+}
+.wd-nav .sub-menu li a,
+.main-nav .sub-menu li a,
+.woodmart-navigation .menu .sub-menu li a {
+    color: #222 !important;
+    font-size: 14px !important;
+    padding: 10px 20px !important;
+    border-bottom: 1px solid #f0f0f0 !important;
+    display: block !important;
+}
+.wd-nav .sub-menu li a:hover,
+.main-nav .sub-menu li a:hover,
+.woodmart-navigation .menu .sub-menu li a:hover {
+    color: #e63030 !important;
+    background: #fff9f9 !important;
+    border-right: 3px solid #e63030 !important;
+    padding-right: 17px !important;
+}
+@media (max-width: 1024px) {
+    .wd-nav .sub-menu { display: none; }
+    .wd-nav li.is-open > .sub-menu { display: block; }
+}
