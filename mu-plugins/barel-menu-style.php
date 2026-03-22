@@ -1,133 +1,154 @@
 <?php
 /**
  * Plugin Name: Barel Menu Style
- * Description: Woodmart primary nav styling - dark bg, RTL, red hover
- * Version: 1.0
+ * Description: Main nav styling + hide all secondary menus
+ * Version: 2.0
  */
-
 if (!defined('ABSPATH')) exit;
 
-add_action('wp_head', 'barel_menu_style_css', 99);
-function barel_menu_style_css() {
-    ?>
-<style>
-/* ── Barel Primary Nav Styling ── */
-.woodmart-navigation,
-.main-nav,
-#site-navigation,
-.primary-navigation,
+add_action('wp_head', function () { ?>
+<style id="barel-menu-css">
+
+/* ══ Hide all other nav elements except main header nav ══ */
+#barel-mega-nav,
+.wd-nav-sticky,
+.wd-sticky-nav,
+.wd-nav-vertical {
+    display: none !important;
+}
+
+/* ══ Main header nav bar — dark background ══ */
 .wd-header-nav,
-nav.woodmart-navigation,
-header .navigation-wrap {
+.whb-row.whb-main-nav {
     background: #222 !important;
+    box-shadow: 0 2px 6px rgba(0,0,0,.35) !important;
+    margin-bottom: 0 !important;
 }
-.woodmart-navigation .menu,
-.main-nav .menu,
-.wd-nav,
-.wd-header-nav > ul {
-    background: #222;
-    padding: 0;
-    margin: 0;
-    direction: rtl;
+
+/* Force nav container full width */
+.wd-header-nav .container,
+.wd-header-nav .wd-entry-content {
+    max-width: 100% !important;
+    padding: 0 20px !important;
 }
-/* Top-level items */
-.woodmart-navigation .menu > li > a,
-.main-nav .menu > li > a,
-.wd-nav > li > a,
-.wd-header-nav > ul > li > a,
-.site-header-main nav ul li a {
+
+/* ══ Top-level menu items ══ */
+.wd-nav-header > li > a.woodmart-nav-link,
+.wd-nav-main > li > a.woodmart-nav-link {
     color: #fff !important;
-    font-weight: 500;
-    padding: 14px 18px;
-    display: block;
-    text-decoration: none;
-    transition: color 0.2s, border-bottom 0.2s;
-    font-size: 0.95rem;
-    letter-spacing: 0.02em;
-    border-bottom: 3px solid transparent;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    padding: 0 16px !important;
+    height: 48px !important;
+    line-height: 48px !important;
+    display: flex !important;
+    align-items: center !important;
+    white-space: nowrap !important;
+    border-bottom: 3px solid transparent !important;
+    transition: border-color .15s, background .15s !important;
+    text-decoration: none !important;
 }
-.woodmart-navigation .menu > li > a:hover,
-.main-nav .menu > li > a:hover,
-.wd-nav > li > a:hover,
-.wd-header-nav > ul > li > a:hover,
-.site-header-main nav ul li a:hover {
-    color: #e3000f !important;
+
+.wd-nav-header > li > a.woodmart-nav-link:hover,
+.wd-nav-header > li.current-menu-item > a.woodmart-nav-link,
+.wd-nav-header > li.current-menu-ancestor > a.woodmart-nav-link,
+.wd-nav-main > li > a.woodmart-nav-link:hover {
+    background: rgba(255,255,255,.07) !important;
     border-bottom-color: #e3000f !important;
+    color: #fff !important;
 }
-/* Dropdown sub-menu */
-.woodmart-navigation .menu li ul,
-.main-nav .menu li ul,
-.wd-nav li .sub-menu,
-.wd-header-nav > ul > li > ul {
+
+/* ══ Dropdown panel ══ */
+.wd-nav-header .wd-dropdown,
+.wd-nav-main .wd-dropdown,
+.wd-nav-header .sub-menu,
+.wd-nav-main .sub-menu {
     background: #fff !important;
-    box-shadow: 0 4px 18px rgba(0,0,0,0.13);
-    border-top: 3px solid #e3000f;
-    min-width: 200px;
-    border-radius: 0 0 6px 6px;
-    direction: rtl;
+    border-top: 3px solid #e3000f !important;
+    border-radius: 0 0 4px 4px !important;
+    box-shadow: 0 6px 24px rgba(0,0,0,.14) !important;
+    min-width: 200px !important;
+    padding: 6px 0 !important;
+    direction: rtl !important;
 }
-.woodmart-navigation .menu li ul li a,
-.main-nav .menu li ul li a,
-.wd-nav li .sub-menu li a {
+
+/* Dropdown items */
+.wd-nav-header .wd-dropdown li a,
+.wd-nav-main .wd-dropdown li a,
+.wd-nav-header .sub-menu li a,
+.wd-nav-main .sub-menu li a {
     color: #222 !important;
-    padding: 10px 18px;
-    font-size: 0.9rem;
-    border-bottom: 1px solid #f0f0f0;
-    display: block;
+    font-size: 13.5px !important;
+    padding: 10px 18px !important;
+    display: block !important;
+    border-bottom: 1px solid #f5f5f5 !important;
+    transition: color .12s, padding-right .12s !important;
+    text-decoration: none !important;
+    line-height: 1.4 !important;
 }
-.woodmart-navigation .menu li ul li a:hover,
-.main-nav .menu li ul li a:hover,
-.wd-nav li .sub-menu li a:hover {
+
+.wd-nav-header .wd-dropdown li:last-child a,
+.wd-nav-main .sub-menu li:last-child a {
+    border-bottom: none !important;
+}
+
+.wd-nav-header .wd-dropdown li a:hover,
+.wd-nav-main .sub-menu li a:hover {
     color: #e3000f !important;
-    background: #fef5f5 !important;
+    border-right: 3px solid #e3000f !important;
+    padding-right: 15px !important;
+    background: #fff9f9 !important;
 }
 
-/* ── Mobile hamburger ── */
-.wd-hamburger,
-.woodmart-hamburger,
-.mobile-nav-icon,
-button.menu-toggle {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    cursor: pointer;
-    padding: 10px;
-    background: none;
-    border: none;
+/* ══ Caret arrow color ══ */
+.wd-nav-header .wd-arrow,
+.wd-nav-main .wd-arrow {
+    color: rgba(255,255,255,.7) !important;
+    fill: rgba(255,255,255,.7) !important;
 }
-.wd-hamburger span,
-.woodmart-hamburger span,
-button.menu-toggle span {
-    display: block;
-    width: 26px;
-    height: 2px;
-    background: #fff;
-    transition: transform 0.3s, opacity 0.3s;
-    border-radius: 2px;
-}
-.wd-hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
-.wd-hamburger.active span:nth-child(2) { opacity: 0; }
-.wd-hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
 
-@media (max-width: 991px) {
-    .wd-nav > li > a,
-    .woodmart-navigation .menu > li > a {
-        border-bottom: 1px solid #333 !important;
-        padding: 12px 16px;
+/* ══ Mobile nav (≤ 1024px) ══ */
+@media (max-width: 1024px) {
+    /* Show mobile nav, hide desktop nav */
+    .wd-nav-header { display: none !important; }
+
+    /* Mobile hamburger button — white */
+    .wd-nav-opener,
+    .woodmart-hamburger,
+    .mobile-nav-opener {
+        color: #fff !important;
+        background: #222 !important;
     }
-    .woodmart-navigation .menu li ul,
-    .wd-nav li .sub-menu {
-        position: static !important;
-        box-shadow: none;
-        border-top: none;
-        background: #2a2a2a !important;
+
+    /* Mobile nav items */
+    .wd-nav-mobile > li > a,
+    .mobile-pages-menu > li > a {
+        color: #222 !important;
+        padding: 12px 16px !important;
+        border-bottom: 1px solid #eee !important;
+        font-size: 15px !important;
     }
-    .woodmart-navigation .menu li ul li a,
-    .wd-nav li .sub-menu li a {
-        color: #ccc !important;
-        padding-right: 32px;
+
+    .wd-nav-mobile .sub-menu,
+    .mobile-pages-menu .sub-menu {
+        background: #f9f9f9 !important;
+        border-right: 3px solid #e3000f !important;
+    }
+
+    .wd-nav-mobile .sub-menu li a,
+    .mobile-pages-menu .sub-menu li a {
+        color: #333 !important;
+        padding: 10px 24px !important;
+        font-size: 13.5px !important;
     }
 }
+
+/* ══ Clear gap between nav and slider ══ */
+.whb-row.whb-main-nav + *,
+.wd-header-nav + * {
+    margin-top: 0 !important;
+}
+
 </style>
-    <?php
-}
+<?php
+}, 8);
