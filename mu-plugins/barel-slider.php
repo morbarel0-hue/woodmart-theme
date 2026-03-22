@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Barel Hero Slider
  * Description: Full-width hero slider for homepage
- * Version: 4.0
+ * Version: 5.0
  */
 if (!defined('ABSPATH')) exit;
 
@@ -14,8 +14,7 @@ add_action('wp_head', function () {
 #barel-hero-slider {
     position: relative;
     width: 100vw;
-    margin-left: calc(-50vw + 50%);
-    margin-right: 0;
+    margin-right: calc(-50vw + 50%);
     overflow: hidden;
     height: 560px;
     background: #111;
@@ -30,8 +29,10 @@ add_action('wp_head', function () {
     width: 100%;
     height: 100%;
     transition: transform 0.6s ease;
+    will-change: transform;
 }
 .bhs-slide {
+    position: relative;
     min-width: 100%;
     height: 100%;
     overflow: hidden;
@@ -46,8 +47,36 @@ add_action('wp_head', function () {
     padding: 0;
 }
 @media (max-width: 768px) {
-    .bhs-slide img { height: auto; }
+    .bhs-slide img { height: auto; min-height: 220px; }
 }
+
+/* ── CTA Button ── */
+.bhs-cta {
+    position: absolute;
+    bottom: 56px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 5;
+    display: inline-block;
+    background: #e63030;
+    color: #fff;
+    font-family: Heebo, Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 12px 32px;
+    border-radius: 4px;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.2s;
+    cursor: pointer;
+    border: none;
+}
+.bhs-cta:hover { background: #b71c1c; color: #fff; text-decoration: none; }
+@media (max-width: 768px) {
+    .bhs-cta { bottom: 48px; font-size: 14px; padding: 10px 22px; }
+}
+
+/* ── Arrows ── */
 .bhs-arrow {
     position: absolute;
     top: 50%;
@@ -69,9 +98,11 @@ add_action('wp_head', function () {
 .bhs-arrow:hover { background: rgba(0,0,0,0.75); }
 .bhs-prev { left: 16px; }
 .bhs-next { right: 16px; }
+
+/* ── Dots ── */
 .bhs-dots {
     position: absolute;
-    bottom: 14px;
+    bottom: 16px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
@@ -90,7 +121,7 @@ add_action('wp_head', function () {
 }
 .bhs-dot.active { background: #fff; }
 
-/* Remove any whitespace/padding that causes side gaps */
+/* ── Kill side gaps ── */
 .wd-page-content,
 .website-wrapper,
 body.home .wd-content-layout,
@@ -118,18 +149,25 @@ add_action('wp_footer', function () {
     ?>
 <div id="barel-hero-slider" style="display:none">
     <div class="bhs-track">
+
         <div class="bhs-slide">
             <img src="https://barelofir.co.il/wp-content/uploads/sliders/drills_desktop.jpg"
                  alt="מקדחות ומברגות" width="1920" height="560" loading="eager" />
+            <a href="/shop" class="bhs-cta">לרכישה עכשיו</a>
         </div>
+
         <div class="bhs-slide">
             <img src="https://barelofir.co.il/wp-content/uploads/sliders/washers_desktop.jpg"
                  alt="מכונות שטיפה" width="1920" height="560" loading="lazy" />
+            <a href="/shop" class="bhs-cta">לרכישה עכשיו</a>
         </div>
+
         <div class="bhs-slide">
             <img src="https://barelofir.co.il/wp-content/uploads/sliders/signet_desktop.jpg"
                  alt="כלי גינון" width="1920" height="560" loading="lazy" />
+            <a href="/shop" class="bhs-cta">לרכישה עכשיו</a>
         </div>
+
     </div>
     <button class="bhs-arrow bhs-prev" aria-label="הקודם">&#8249;</button>
     <button class="bhs-arrow bhs-next" aria-label="הבא">&#8250;</button>
