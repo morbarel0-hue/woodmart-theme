@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Barel Hero Slider
  * Description: Full-width hero slider for homepage
- * Version: 5.0
+ * Version: 6.0
  */
 if (!defined('ABSPATH')) exit;
 
@@ -14,7 +14,8 @@ add_action('wp_head', function () {
 #barel-hero-slider {
     position: relative;
     width: 100vw;
-    margin-right: calc(-50vw + 50%);
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
     overflow: hidden;
     height: 560px;
     background: #111;
@@ -26,14 +27,15 @@ add_action('wp_head', function () {
 }
 .bhs-track {
     display: flex;
-    width: 100%;
+    width: 300%;
     height: 100%;
     transition: transform 0.6s ease;
     will-change: transform;
 }
 .bhs-slide {
     position: relative;
-    min-width: 100%;
+    min-width: calc(100% / 3);
+    width: calc(100% / 3);
     height: 100%;
     overflow: hidden;
     flex-shrink: 0;
@@ -122,14 +124,18 @@ add_action('wp_head', function () {
 .bhs-dot.active { background: #fff; }
 
 /* ── Kill side gaps ── */
-.wd-page-content,
-.website-wrapper,
+body {
+    overflow-x: hidden;
+}
+body.home .website-wrapper,
+body.home .wd-page-content,
 body.home .wd-content-layout,
 body.home #main-content,
 body.home .entry-content,
 body.home .elementor-section-wrap,
 body.home .e-con-inner,
 body.home .elementor-top-section:first-child {
+    max-width: 100% !important;
     padding-left: 0 !important;
     padding-right: 0 !important;
     margin-left: 0 !important;
@@ -206,19 +212,21 @@ add_action('wp_footer', function () {
     var timer;
     var rtl   = document.dir === 'rtl' || document.documentElement.getAttribute('dir') === 'rtl';
 
+    /* track is 300% wide, each slide is 1/3 of track = 100vw
+       so to show slide N we translate by -(N * 100/3)% of track width */
     function goTo(n) {
         cur = (n + total) % total;
-        var pct = rtl ? -(cur * 100) : (cur * 100);
+        var pct = -(cur * (100 / total));
         track.style.transform = 'translateX(' + pct + '%)';
         dots.forEach(function (d, i) { d.classList.toggle('active', i === cur); });
     }
     function startTimer() {
         clearInterval(timer);
-        timer = setInterval(function () { goTo(cur + (rtl ? -1 : 1)); }, 5000);
+        timer = setInterval(function () { goTo(cur + 1); }, 5000);
     }
 
-    btnP.addEventListener('click', function () { goTo(cur + (rtl ? 1 : -1)); startTimer(); });
-    btnN.addEventListener('click', function () { goTo(cur + (rtl ? -1 : 1)); startTimer(); });
+    btnP.addEventListener('click', function () { goTo(cur - 1); startTimer(); });
+    btnN.addEventListener('click', function () { goTo(cur + 1); startTimer(); });
     dots.forEach(function (d) {
         d.addEventListener('click', function () { goTo(+d.dataset.idx); startTimer(); });
     });
