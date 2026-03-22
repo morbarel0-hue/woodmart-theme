@@ -11,6 +11,23 @@ if (!defined('ABSPATH')) exit;
    ══════════════════════════════════════════════════════════════ */
 add_action('wp_head', function () { ?>
 <style id="barel-ui-fixes">
+/* ── Logo height 60px in header ── */
+.whb-header .wd-header-logo img,
+.site-logo img,
+.custom-logo,
+header .logo img,
+.whb-header img.custom-logo,
+.woodmart-logo-wrap img {
+    height: 60px !important;
+    width: auto !important;
+    max-width: none !important;
+}
+@media (max-width: 768px) {
+    .whb-header .wd-header-logo img,
+    .site-logo img,
+    .custom-logo { height: 45px !important; }
+}
+
 
 /* ── 1. Slider full width — no white gaps ── */
 #barel-hero-slider,
@@ -57,7 +74,7 @@ body.home .elementor-section.elementor-section-stretched {
 /* If WoodMart still shows wood-logo-dark.svg, hide it and show ours */
 img[src*="wood-logo-dark"],
 img[src*="woodmart/images/wood-logo"] {
-    content: url('https://barelofir.co.il/wp-content/uploads/2026/03/barel-logo.svg') !important;
+    content: url('https://barelofir.co.il/wp-content/uploads/2026/03/logo_transparent.png') !important;
     max-width: 180px !important;
     height: auto !important;
 }
@@ -128,7 +145,7 @@ add_action('wp_footer', function () { ?>
     // 1. Replace WoodMart default logo with barel logo
     var imgs = document.querySelectorAll('img[src*="wood-logo-dark"], img[src*="wood-logo.svg"]');
     imgs.forEach(function(img) {
-        img.src = 'https://barelofir.co.il/wp-content/uploads/2026/03/barel-logo.svg';
+        img.src = 'https://barelofir.co.il/wp-content/uploads/2026/03/logo_transparent.png';
         img.style.maxWidth = '180px';
         img.style.height = 'auto';
     });
